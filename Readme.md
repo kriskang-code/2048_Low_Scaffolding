@@ -4,6 +4,15 @@
 with that reference i made this one in a space theme.
 it has simple animations for swapping, removing and undo options with sounds.
 
+## to Play
+
+go to this link : https://smoker27007.github.io/2048Galaxy/
+or
+clone this repo : https://github.com/smoker27007/2048Galaxy
+cd 2048Galaxy
+and start live server or open the index.html path in your browser.
+
+
 ## how to play
 
 - move with arrow keys or wasd
@@ -24,14 +33,6 @@ it has simple animations for swapping, removing and undo options with sounds.
 
 make 2048 tile.
 then if u want keep going for big score.
-
-## to Play
-
-go to this link : https://smoker27007.github.io/2048Galaxy/
-or
-clone this repo : https://github.com/smoker27007/2048Galaxy
-cd 2048Galaxy
-and start live server or open the index.html path in your browser.
 
 
 ok bye have fun and dont rage if u lose lol 😂 
