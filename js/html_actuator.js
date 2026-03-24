@@ -28,15 +28,15 @@ function HTMLActuator() {
     this._removePending = false;
     this._removeTarget = null;
 
-    
-    
+
+
     var self = this;
     var resizeTimer;
     function onResize() {
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(function () {
-            self._s = null; 
-            
+            self._s = null;
+
             self._measure();
             if (!self._s) return;
             var tiles = self.tiles ? self.tiles.querySelectorAll(".tile") : [];
@@ -55,7 +55,7 @@ function HTMLActuator() {
     }
     window.addEventListener("resize", onResize);
     window.addEventListener("orientationchange", function () {
-        
+
         setTimeout(onResize, 300);
     });
 }
@@ -66,8 +66,8 @@ function HTMLActuator() {
 HTMLActuator.prototype._measure = function () {
     var firstCell = document.querySelector(".grid-cell");
     if (!firstCell) return;
-    
-    
+
+
     var containerRect = this.tiles.getBoundingClientRect();
     var cellRect = firstCell.getBoundingClientRect();
     var gapPx = parseFloat(
@@ -110,35 +110,35 @@ HTMLActuator.prototype.render = function (grid, meta) {
     });
     if (this.scoreEl) this.scoreEl.textContent = meta.score;
     if (this.bestEl) this.bestEl.textContent = meta.bestScore;
-    
+
     if (this.undoCount) this.undoCount.textContent = meta.undosLeft;
     if (this.undoBtn) {
         this.undoBtn.disabled = !meta.canUndo;
         this.undoBtn.classList.toggle("undo-exhausted", meta.undosLeft <= 0);
     }
-    
+
     if (this.exchangeCount) this.exchangeCount.textContent = meta.exchangesLeft;
     if (this.exchangeBtn) {
         this.exchangeBtn.disabled = !meta.canExchange;
         this.exchangeBtn.classList.toggle("exchange-active", this._exchangeMode);
         this.exchangeBtn.classList.toggle("exchange-exhausted", meta.exchangesLeft <= 0);
     }
-    
+
     if (this.removeCount) this.removeCount.textContent = meta.removesLeft;
     if (this.removeBtn) {
         this.removeBtn.disabled = !meta.canRemove;
         this.removeBtn.classList.toggle("remove-active", this._removeMode);
         this.removeBtn.classList.toggle("remove-exhausted", meta.removesLeft <= 0);
     }
-    
+
     if (this.shell) {
         this.shell.classList.toggle("exchange-mode", this._exchangeMode);
         this.shell.classList.toggle("remove-mode", this._removeMode);
     }
-    
+
     if (this.swapHint) {
         if (this._removeMode) {
-            
+
             if (this._removePending) {
                 this.swapHint.textContent = "\u2716 Consuming...";
                 this.swapHint.classList.remove("step2");
@@ -194,11 +194,11 @@ HTMLActuator.prototype._fireSwapBurst = function (el) {
         "#00e5ff", "#b2ebf2", "#ffd54f", "#fff9c4"
     ];
 
-    
+
     setTimeout(function () {
         var rect = el.getBoundingClientRect();
         var cRect = self.tiles.getBoundingClientRect();
-        
+
         var cx = (rect.left + rect.width / 2) - cRect.left;
         var cy = (rect.top + rect.height / 2) - cRect.top;
 
@@ -208,8 +208,8 @@ HTMLActuator.prototype._fireSwapBurst = function (el) {
             var angleDeg = (i / STARS) * 360 + (Math.random() - 0.5) * 22;
             var angleRad = angleDeg * Math.PI / 180;
             var dist = 38 + Math.random() * 28;
-            var tx = Math.cos(angleRad) * dist;     
-            var ty = Math.sin(angleRad) * dist;     
+            var tx = Math.cos(angleRad) * dist;
+            var ty = Math.sin(angleRad) * dist;
             var size = 4 + Math.random() * 5;
             var color = COLORS[i % COLORS.length];
             star.style.cssText = [
@@ -223,7 +223,7 @@ HTMLActuator.prototype._fireSwapBurst = function (el) {
                 "animation-delay:" + (Math.random() * 40) + "ms"
             ].join(";");
             self.tiles.appendChild(star);
-            
+
             setTimeout(function (s) {
                 if (s.parentNode) s.parentNode.removeChild(s);
             }, 780, star);
@@ -237,7 +237,7 @@ HTMLActuator.prototype._fireSwapBurst = function (el) {
 HTMLActuator.prototype._fireBHParticles = function (el) {
     var self = this;
 
-    
+
     var SPARKLE_COLORS = [
         "#ff2a1a", "#ff4422", "#ff6633", "#cc1100",
         "#ff8844", "#ee2200", "#ff5533", "#dd3311",
@@ -255,7 +255,7 @@ HTMLActuator.prototype._fireBHParticles = function (el) {
     var cx = (rect.left + rect.width / 2) - cRect.left;
     var cy = (rect.top + rect.height / 2) - cRect.top;
 
-    
+
     for (var i = 0; i < 16; i++) {
         (function (idx) {
             var delay = idx * 12 + Math.random() * 30;
@@ -287,7 +287,7 @@ HTMLActuator.prototype._fireBHParticles = function (el) {
         }(i));
     }
 
-    
+
     for (var e = 0; e < 6; e++) {
         (function (idx) {
             var eDelay = 40 + idx * 25;
@@ -315,7 +315,7 @@ HTMLActuator.prototype._fireBHParticles = function (el) {
         }(e));
     }
 
-    
+
     var ring = document.createElement("div");
     ring.className = "remove-ring";
     ring.style.left = cx + "px";
@@ -334,8 +334,8 @@ HTMLActuator.prototype._drawTile = function (tile, isGhost) {
     var s = this._s;
     if (!s) return;
 
-    
-    
+
+
     if (!isGhost && tile.mergedFrom) {
         tile.mergedFrom.forEach(function (t) { self._drawTile(t, true); });
     }
@@ -348,17 +348,17 @@ HTMLActuator.prototype._drawTile = function (tile, isGhost) {
     el.style.width = s.cell + "px";
     el.style.height = s.cell + "px";
 
-    
+
     el.setAttribute("data-gx", tile.x);
     el.setAttribute("data-gy", tile.y);
 
-    
+
     var from = tile.previousPosition || { x: tile.x, y: tile.y };
     var fromPos = this._pos(from.x, from.y);
     el.style.left = fromPos.left + "px";
     el.style.top = fromPos.top + "px";
 
-    
+
     if (!isGhost && this._exchangeMode) {
         el.classList.add("tile-exchangeable");
         var first = this._exchangeFirst;
@@ -371,7 +371,7 @@ HTMLActuator.prototype._drawTile = function (tile, isGhost) {
         }
     }
 
-    
+
     if (!isGhost && this._removeMode) {
         el.classList.add("tile-removeable");
         if (this._removeTarget && this._removeTarget.x === tile.x && this._removeTarget.y === tile.y) {
@@ -384,12 +384,12 @@ HTMLActuator.prototype._drawTile = function (tile, isGhost) {
     el.appendChild(inner);
     this.tiles.appendChild(el);
 
-    
-    
+
+
     void el.getBoundingClientRect();
 
     if (isGhost) {
-        
+
         el.classList.add("tile-ghost", "tile-moving");
         el.style.opacity = "0";
         var ghostTo = this._pos(tile.x, tile.y);
@@ -397,7 +397,7 @@ HTMLActuator.prototype._drawTile = function (tile, isGhost) {
         el.style.top = ghostTo.top + "px";
 
     } else if (tile.previousPosition) {
-        
+
         if (this._isUndo) {
             el.classList.add("tile-moving", "tile-undo-moving");
         } else if (this._isExchange) {
@@ -408,33 +408,37 @@ HTMLActuator.prototype._drawTile = function (tile, isGhost) {
         var toPos = this._pos(tile.x, tile.y);
         el.style.left = toPos.left + "px";
         el.style.top = toPos.top + "px";
-        
+
         if (this._isExchange) {
             this._fireSwapBurst(el);
         }
 
     } else if (tile.mergedFrom) {
-        
+
         el.classList.add("tile-merged", "sfx-shimmer");
 
-        
-        
+
+
         ; (function (capturedEl, capturedValue) {
             setTimeout(function () {
                 if (typeof SpaceEffects !== "undefined") {
-                    SpaceEffects.trigger(capturedValue, capturedEl);
+                    if (typeof SpaceEffects.triggerCollide === "function") {
+                        SpaceEffects.triggerCollide(capturedValue, capturedEl);
+                    } else if (typeof SpaceEffects.trigger === "function") {
+                        SpaceEffects.trigger(capturedValue, capturedEl);
+                    }
                 }
             }, 170);
         }(el, tile.value));
 
     } else {
-        
+
         if (this._isUndo) {
 
             var undoDelay = Math.round(Math.random() * 60);
             el.style.animationDelay = undoDelay + "ms";
             el.classList.add("tile-undo-split");
-            
+
             ; (function (capturedEl, delay) {
                 setTimeout(function () {
                     if (typeof SpaceEffects !== "undefined") {
@@ -443,17 +447,17 @@ HTMLActuator.prototype._drawTile = function (tile, isGhost) {
                 }, delay + 40);
             }(el, undoDelay));
         } else if (tile.justSpawned) {
-            
+
             el.classList.add("tile-new");
         }
-        
+
         if (this._removeMode && this._removeTarget &&
             this._removeTarget.x === tile.x && this._removeTarget.y === tile.y) {
             el.classList.add("tile-bh-suck");
             this._fireBHParticles(el);
         }
-        
-        
+
+
     }
 };
 
