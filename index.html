@@ -1,55 +1,30 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Space themed 2048 grid layout.">
-    <title>2048 Galaxy</title>
+    <meta name="description" content="Classic 2048 layout with power-ups.">
+    <title>2048</title>
 
-
-    <link rel="icon" type="image/svg+xml"
-        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230d1330'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' font-size='18' font-family='sans-serif' font-weight='bold' fill='%23ffe650'%3E2K%3C/text%3E%3C/svg%3E">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Space+Grotesk:wght@400;600;700&display=swap"
-        rel="stylesheet">
-
+    <link rel="icon" href="favicon.ico">
     <link rel="stylesheet" href="style/main.css">
-    <link rel="stylesheet" href="style/space-animations.css">
 </head>
 
 <body>
-    <div class="space-canvas" aria-hidden="true">
-        <div class="stars-far"></div>
-        <div class="stars-near"></div>
-        <div class="black-hole">
-            <div class="bh-disk"></div>
-            <div class="bh-glow"></div>
-            <div class="bh-core"></div>
-            <div class="bh-orbit">
-                <div class="bh-satellite"></div>
-            </div>
-        </div>
-        <div class="nebula-left"></div>
-        <div class="nebula-right"></div>
-    </div>
-
     <main class="app">
         <header class="hero">
-            <h1 class="title">2048 Galaxy</h1>
-            <p class="subtitle">Merge the cosmos. Reach the core.</p>
+            <h1 class="title">2048</h1>
+            <p class="subtitle">Join the numbers and get to the <strong>2048 tile!</strong></p>
         </header>
 
         <section class="score-row" aria-label="Scoreboard">
             <div class="score-card">
-                <span class="score-label">Score</span>
+                <span class="score-label">SCORE</span>
                 <span class="score-value">0</span>
             </div>
             <div class="score-card">
-                <span class="score-label">Best</span>
+                <span class="score-label">BEST</span>
                 <span class="best-value">0</span>
             </div>
         </section>
@@ -79,7 +54,7 @@
 
             <div class="game-message" aria-live="polite">
                 <p class="game-message-text"></p>
-                <button class="retry-button" type="button">Play Again</button>
+                <button class="retry-button" type="button">Try Again</button>
             </div>
         </section>
 
@@ -90,14 +65,10 @@
             <button class="exchange-button" type="button" title="Exchange two tiles (X)">
                 Swap <span class="exchange-count">2</span>
             </button>
-            <button class="remove-button" type="button" title="Remove a tile - black hole (B)">
+            <button class="remove-button" type="button" title="Remove a tile (B)">
                 Remove <span class="remove-count">2</span>
             </button>
             <button class="new-game-button" type="button">New Game</button>
-            <button class="mute-button" type="button" title="Toggle sound" aria-label="Toggle sound"
-                aria-pressed="false">
-                <span class="mute-icon">&#128266;</span>
-            </button>
         </div>
 
         <div class="help-link-row">
@@ -112,15 +83,13 @@
 
             <div class="help-section">
                 <h3>Goal</h3>
-                <p>Merge tiles to create the <strong>2048</strong> tile. After winning, keep playing for a higher score.
-                </p>
+                <p>Merge tiles to create the <strong>2048</strong> tile. After winning, keep playing for a higher score.</p>
             </div>
 
             <div class="help-section">
                 <h3>Controls</h3>
                 <div class="help-controls-grid">
-                    <div class="help-key-row"><span class="help-key">Arrow Keys</span> <span>or</span> <span
-                            class="help-key">W A S D</span> <span>Move tiles</span></div>
+                    <div class="help-key-row"><span class="help-key">Arrow Keys</span> <span>or</span> <span class="help-key">W A S D</span> <span>Move tiles</span></div>
                     <div class="help-key-row"><span class="help-key">Swipe</span> <span>Move tiles (mobile)</span></div>
                     <div class="help-key-row"><span class="help-key">X</span> <span>Toggle swap mode</span></div>
                     <div class="help-key-row"><span class="help-key">B</span> <span>Toggle remove mode</span></div>
@@ -163,23 +132,8 @@
                     </div>
                 </div>
             </div>
-
-            <div class="help-section">
-                <h3>Game Over</h3>
-                <p>The game ends when the board is full and no merges are possible.</p>
-            </div>
-
-            <div class="help-section help-tips">
-                <h3>Tips</h3>
-                <ul>
-                    <li>Build your highest tile in a corner.</li>
-                    <li>Save power-ups for tight situations.</li>
-                    <li>Work in one primary direction.</li>
-                </ul>
-            </div>
         </div>
     </div>
-
 
     <script>
         (function () {
@@ -210,8 +164,6 @@
         }());
     </script>
 
-    <script src="js/sound_manager.js"></script>
-    <script src="js/space-effect.js"></script>
     <script src="js/tile.js"></script>
     <script src="js/grid.js"></script>
     <script src="js/input_manager.js"></script>
@@ -220,31 +172,6 @@
     <script src="js/application.js"></script>
 
     <script>
-        (function () {
-            var btn = document.querySelector(".mute-button");
-            var icon = btn && btn.querySelector(".mute-icon");
-            if (!btn) return;
-
-            function syncMuteButtonUi(muted) {
-                btn.setAttribute("aria-pressed", muted ? "true" : "false");
-                btn.setAttribute("aria-label", muted ? "Sound is off" : "Sound is on");
-                if (icon) icon.textContent = muted ? "\uD83D\uDD07" : "\uD83D\uDD0A";
-                btn.title = muted ? "Sound off - click to unmute" : "Sound on - click to mute";
-            }
-
-            if (typeof SoundManager !== "undefined" && typeof SoundManager.isMuted === "function") {
-                syncMuteButtonUi(!!SoundManager.isMuted());
-            } else {
-                syncMuteButtonUi(false);
-            }
-
-            btn.addEventListener("click", function () {
-                if (typeof SoundManager === "undefined" || typeof SoundManager.toggleMute !== "function") return;
-                var muted = SoundManager.toggleMute();
-                syncMuteButtonUi(!!muted);
-            });
-        }());
-
         (function () {
             var overlay = document.querySelector(".help-overlay");
             var openBtn = document.querySelector(".help-button");
@@ -276,5 +203,4 @@
         }());
     </script>
 </body>
-
 </html>
