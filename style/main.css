@@ -2082,3 +2082,54 @@ body {
     display: none;
   }
 }
+
+/* --- OVERRIDES FOR CLASSIC 2048 LOOK --- */
+
+body {
+    background-color: #faf8ef !important;
+    color: #776e65 !important;
+    font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif !important;
+}
+
+.title {
+    color: #776e65 !important;
+}
+
+.subtitle {
+    color: #776e65 !important;
+}
+
+.score-card {
+    background-color: #bbada0 !important;
+    color: white !important;
+}
+
+.board-shell, .grid-container {
+    background-color: #bbada0 !important;
+}
+
+.grid-cell {
+    background-color: rgba(238, 228, 214, 0.35) !important;
+}
+
+button {
+    background-color: #8f7a66 !important;
+    color: #f9f6f2 !important;
+}
+
+button:hover {
+    background-color: #9f8b77 !important;
+}
+
+/* Base tile colors */
+.tile-inner {
+    background-color: #eee4da !important;
+    color: #776e65 !important;
+}
+
+.tile-8 .tile-inner { color: #f9f6f2 !important; background-color: #f2b179 !important; }
+.tile-16 .tile-inner { color: #f9f6f2 !important; background-color: #f59563 !important; }
+.tile-32 .tile-inner { color: #f9f6f2 !important; background-color: #f67c5f !important; }
+.tile-64 .tile-inner { color: #f9f6f2 !important; background-color: #f65e3b !important; }
+.tile-128 .tile-inner { color: #f9f6f2 !important; background-color: #edcf72 !important; }
+.tile-256 .tile-inner { color: #f9f6f2 !important; background-color: #edcc61 !important; }
